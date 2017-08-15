@@ -1,0 +1,15 @@
+@()( implicit flash : Flash)
+
+@main("Knoldus") {
+
+<div>
+    @headerLogin()
+</div>
+
+<center>
+    <h1>Welcome to Knoldus !</h1>
+    <h6>@flash.get("Error")</h6>
+</center>
+
+
+}

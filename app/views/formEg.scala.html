@@ -1,0 +1,54 @@
+@(userForm:Form[UserData] , hobbyList : List[Hobby])( implicit messages : Messages, flash : Flash)
+
+@if(userForm.hasGlobalErrors) {
+<ul>
+    @for(error <- userForm.globalErrors) {
+    <li>@Messages(error.messages, error.args)</li>
+    }
+</ul>
+}
+<div>
+    @header()
+</div>
+<div >
+    <center>
+        <table class="table table-bordered" style="width:450px; text-align: center;">
+           <tr style="00background-color:#0000cc; color:white;">
+             <th style="text-align: center;">Sign Up</th>
+           </tr>
+            <tr>
+              <td>
+@import helper._
+<div style="background-color:red;">@flash.get("Error")</div>
+@helper.form(action = routes.ClientControllers.registerUser())   {
+@helper.inputText(userForm("firstName"), '_label -> "First Name",'_showConstraints-> false)
+
+@helper.inputText(userForm("middleName"), '_label -> "Middle Name",'_showConstraints-> false)
+
+@helper.inputText(userForm("lastName"), '_label -> "Last Name",'_showConstraints-> false)
+
+@helper.inputText(userForm("useremail"), '_label -> "User Email",'_showConstraints-> false)
+
+@helper.inputPassword(userForm("password"), '_label -> "Password",'_showConstraints-> false)
+
+@helper.inputPassword(userForm("confirmPassword"), '_label -> "Confirm Password",'_showConstraints-> false)
+
+@helper.inputText(userForm("phoneNumber"), '_label -> "Mobile No",'_showConstraints-> false)
+
+@helper.select(userForm("gender"),Seq("male"->"male","female"->"female"), '_label -> "Gender",'_showConstraints-> false)
+
+@helper.inputText(userForm("age"), '_label -> "Age",'_showConstraints-> false)
+
+@inputCheckboxGroup(
+userForm("hobbyID"),
+options = hobbyList.map(hobby => hobby.id.toString -> hobby.hobbyText.toString),
+'_label -> "Hobbies",
+'_error -> userForm("hobbyID").error.map(_.withMessage("select one or more hobbies")))
+
+<button type="Submit" class="btn btn-primary">Submit</button>
+}
+              </td>
+            </tr>
+        </table>
+    </center>
+</div>

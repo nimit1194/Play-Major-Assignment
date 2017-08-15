@@ -1,0 +1,34 @@
+@(assignments:List[Assignment])( implicit messages : Messages, flash : Flash)
+
+<div>
+    @headerLoginAdmin()
+</div>
+<center><H1>Assignment List</H1></center>
+@if(assignments.isEmpty){
+<h1>No Assignments</h1>
+} else {
+<div style="background-color:red;">@flash.get("Error")</div>
+
+<div style="background-color:green;">@flash.get("Success")</div>
+
+<div class="container">
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Delete</th>
+        </tr>
+        </thead>
+        <tbody>
+        @for(assignment<-assignments){
+        <tr>
+            <td>@assignment.title</td>
+            <td>@assignment.description</td>
+            <td><button class="btn btn-success" onclick="location.href='@controllers.routes.AssignmentController.deleteAssignment(assignment.id)';"> Delete</button></td>
+        </tr>
+        }
+        </tbody>
+    </table>
+</div>
+}

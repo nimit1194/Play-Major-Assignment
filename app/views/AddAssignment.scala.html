@@ -1,0 +1,35 @@
+@(assignmentForm:Form[AssignmentForm])( implicit messages : Messages, flash : Flash)
+
+<div>
+    @headerLoginAdmin()
+</div>
+
+@if(assignmentForm.hasGlobalErrors) {
+<ul>
+    @for(error <- assignmentForm.globalErrors) {
+    <li>@Messages(error.messages, error.args)</li>
+    }
+</ul>
+}
+<div >
+    <center>
+        <table class="table table-bordered" style="width:450px; text-align: center;">
+            <tr style="background-color:#0000cc; color:white;">
+                <th style="text-align: center;">Add Assignment</th>
+            </tr>
+            <tr>
+                <td>
+                    @import helper._
+                    <div style="background-color:red;">@flash.get("Error")</div>
+                    <div style="background-color:green;">@flash.get("Success")</div>
+                    @helper.form(action = routes.AssignmentController.addAssignment())   {
+                    @helper.inputText(assignmentForm("title"), '_label -> "Title of Assignment",'_showConstraints-> false)
+
+                    @textarea(field = assignmentForm("description"), args = 'rows -> 5, 'cols -> 50)
+                    <button type="Submit" class="btn btn-primary">Submit</button>
+                    }
+                </td>
+            </tr>
+        </table>
+    </center>
+</div>

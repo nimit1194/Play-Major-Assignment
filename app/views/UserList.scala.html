@@ -1,0 +1,48 @@
+@(userlist : List[UserDataModel])( implicit messages : Messages, flash : Flash)
+
+<div>
+    @headerLoginAdmin()
+</div>
+@main("UserList"){
+    <center><H1>USER LIST</H1></center>
+    @if(userlist.isEmpty){
+        <h1>No users</h1>
+   } else {
+    <div style="background-color:red;">@flash.get("Error")</div>
+
+    <div style="background-color:green;">@flash.get("Success")</div>
+
+<div class="container">
+    <table class="table">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>UserEmail</th>
+            <th>Enable</th>
+            <th>Disable</th>
+        </tr>
+        </thead>
+        <tbody>
+     @for(user<-userlist){
+     <tr>
+     <td>@user.id</td>
+       <td>@user.userEmail</td>
+       @if(user.isEnable){
+       <td> <button class="btn btn-warning" disabled > Enable</button></td>
+
+        <td><button class="btn btn-success" onclick="location.href='@controllers.routes.Admin.disableUser(user.userEmail)';"> Disable</button></td>
+       }else {
+
+         <td><button class="btn btn-success" onclick="location.href='@controllers.routes.Admin.enableUser(user.userEmail)';" > Enable</button></td>
+
+         <td><button class="btn btn-warning" disabled> Disable</button></td>
+       }
+     </tr>
+     }
+        </tbody>
+    </table>
+</div>
+
+     }
+
+}

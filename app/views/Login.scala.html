@@ -1,0 +1,40 @@
+@(userLogin:Form[LoginUser])(implicit messages: Messages, flash: Flash)
+
+@if(userLogin.hasGlobalErrors) {
+<ul>
+    @for(error <- userLogin.globalErrors) {
+    <li>@Messages(error.messages, error.args)</li>
+    }
+</ul>
+}
+<div>
+    @header()
+</div>
+<br/>
+<br/>
+<br/>
+<div >
+    <center>
+        <table class="table table-bordered" style="width:450px; text-align: center;">
+            <tr style="background-color:#0000cc; color:white;">
+                <th style="text-align: center;">Login</th>
+            </tr>
+<tr>
+    <td>
+<div style="background-color:red;">@flash.get("Error")</div>
+@import helper._
+
+@helper.form(action = routes.ClientControllers.loginUser())   {
+@helper.inputText(userLogin("useremail"), '_label -> "UserEmail",'_showConstraints-> false)
+
+@helper.inputPassword(userLogin("password"), '_label -> "Password",'_showConstraints-> false)
+
+<button value="user" name="login" >Login</button>
+<br />
+<a href="@routes.Application.updatePass()">Forgot Password??</a>
+}
+    </td>
+    </tr>
+        </table>
+    </center>
+</div>

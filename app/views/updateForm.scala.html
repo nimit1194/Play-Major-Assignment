@@ -1,0 +1,59 @@
+@(userForm: Form[UserProfileData], hobbiesList: List[Hobby],isAdmin:Boolean)(implicit messages: Messages, flash: Flash)
+
+@import helper._
+@if(isAdmin){
+<div>
+    @headerLoginAdmin()
+</div>
+}else{
+<div>
+ @headerLogin()
+</div>
+}
+@main("Play"){
+    <h1>Profile</h1>
+    <h4>@flash.get("success")</h4>
+    <h4>@flash.get("error")</h4>
+
+    @if(userForm.hasGlobalErrors) {
+    <ul>
+        @for(error <- userForm.globalErrors) {
+        <li>@Messages(error.messages, error.args)</li>
+        }
+    </ul>
+    }
+<div style="background-color:red;">@flash.get("Error")</div>
+<div style="background-color:green;">@flash.get("Success")</div>
+    @helper.form(action = routes.UserController.updateUserProfile()){
+    @helper.inputText(userForm("firstName"),
+    '_label -> "First Name",
+    '_showConstraints -> false)
+
+    @helper.inputText(userForm("middleName"),
+    '_label -> "Middle Name",
+    '_showConstraints -> false)
+
+    @helper.inputText(userForm("lastName"),
+    '_label -> "Last Name",
+    '_showConstraints -> false)
+
+    @helper.inputText(userForm("phoneNumber"),
+    '_label -> "Mobile Number",
+    '_showConstraints -> false)
+
+    @helper.inputText(userForm("age"),
+    '_label -> "Age",
+    '_showConstraints -> false)
+
+    @helper.select(userForm("gender"), Seq("female"->"Female", "male"->"Male"),
+    '_label -> "Gender",
+    '_showConstraints -> false)
+
+    @inputCheckboxGroup(userForm("hobbies"),
+    options = hobbiesList.map(hobby => hobby.id.toString -> hobby.hobbyText.toString),
+    '_label -> "Hobbies",
+    '_error -> userForm("hobbies").error.map(_.withMessage("select one or more hobbies")))
+
+    <button value="update">Update</button>
+    }
+}
